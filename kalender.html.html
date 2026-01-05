@@ -23,7 +23,7 @@
 
         .calendar-container {
             background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-            border-radius: 20px;
+            border-radius: 0;
             padding: 25px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             max-width: 400px;
@@ -55,7 +55,7 @@
             color: white;
             width: 35px;
             height: 35px;
-            border-radius: 50%;
+            border-radius: 0;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -96,7 +96,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            border-radius: 0;
             color: white;
             font-weight: 500;
             cursor: pointer;
@@ -114,14 +114,14 @@
         }
 
         .day.today {
-            background: #dc2626;
+            background: #810100;
             color: white;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+            box-shadow: 0 4px 15px rgba(129, 1, 0, 0.5);
         }
 
         .day.today:hover {
-            background: #ef4444;
+            background: #a01400;
             transform: scale(1.1);
         }
     </style>
@@ -165,16 +165,20 @@
 
             monthYearElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
+            // Ersten Tag des Monats
             const firstDay = new Date(currentYear, currentMonth, 1);
+            // Letzten Tag des Monats
             const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            // Letzten Tag des vorherigen Monats
             const prevLastDay = new Date(currentYear, currentMonth, 0);
 
-            const firstDayIndex = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+            const firstDayIndex = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1; // Montag = 0
             const lastDayDate = lastDay.getDate();
             const prevLastDayDate = prevLastDay.getDate();
 
             calendarDaysElement.innerHTML = '';
 
+            // Tage vom vorherigen Monat
             for (let i = firstDayIndex; i > 0; i--) {
                 const day = document.createElement('div');
                 day.classList.add('day', 'other-month');
@@ -182,11 +186,13 @@
                 calendarDaysElement.appendChild(day);
             }
 
+            // Tage des aktuellen Monats
             for (let i = 1; i <= lastDayDate; i++) {
                 const day = document.createElement('div');
                 day.classList.add('day');
                 day.textContent = i;
 
+                // Heutiges Datum hervorheben
                 const today = new Date();
                 if (i === today.getDate() && 
                     currentMonth === today.getMonth() && 
@@ -197,8 +203,9 @@
                 calendarDaysElement.appendChild(day);
             }
 
+            // Tage vom nächsten Monat
             const totalDays = firstDayIndex + lastDayDate;
-            const remainingDays = 42 - totalDays;
+            const remainingDays = 42 - totalDays; // 6 Zeilen × 7 Tage = 42
             
             for (let i = 1; i <= remainingDays; i++) {
                 const day = document.createElement('div');
